@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155 }} - Category        
+    {% else %}
+        Welcome to the Tokki Print Store
+    {% endif %}
+{% endblock metadescription %}
+
+{% block title %}
+    {% if category %}
+        {{ category.name }} - Tokki Print Store
+    {% else %}
+        See Our Collections
+    {% endif %}
+{% endblock title %}
+
+{% block content %}
+    {% if category %}
+        <div>
+            <div>
+                <p><a href="{% url 'shop:allProdCat' %}">Our Product Collection</a> | {{ category.name }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div>
+        {% if category %}
+            <div>
+                <img src="{{ category.image.url }}" alt="{{ category.name }}}">
+            </div>
+            <br>
+            <div>
+                {{ category.name }}
+                {{ category.description }}
+            </div>
+        {% else %}
+            <div>
+                <img src="{% static 'img/banner.jpg' %}" alt="Our Product Collections">
+            </div>
+            <br>
+            <div>
+                <h1>Our Products Collections</h1>
+                <p>{% lorem 2 b random %}</p>
+            </div>
+        {% endif %}
+    </div>
+    <div>
+        <div>
+            {% for product in products %}
+                <div>
+                    <a href="{{ product.get_url }}"><img src="{{ product.image.url }}" alt="{{ product.name }}"></a>
+                    <div>
+                        <h4>{{ product.name }}</h4>
+                        <p>A${{ product.price }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
